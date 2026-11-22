@@ -49,6 +49,21 @@ function draw(){
     ctx.fillText(`Score: ${score}`, 10, 10)
 }
 
+function drawGameOver(){
+    ctx.fillStyle = "rgba(0, 0, 0, 0.6)"
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+    ctx.fillStyle = WHITE
+    ctx.textAlign = "center"
+    ctx.textBaseline = "middle"
+
+    ctx.font = "40px Arial"
+    ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2 - 20)
+
+    ctx.font = "20px Arial"
+    ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 20)
+}
+
 
 function heuristic(a, b){
     return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1])
@@ -184,6 +199,7 @@ function step(){
     if (hitWall || hitSelf){
         console.log(`Game Over! Score: ${score}`)
         clearInterval(timer)
+        drawGameOver()
         return
     }
 
