@@ -44,4 +44,37 @@ function draw(){
     }
 }
 
-draw()
+function step(){
+    const [dx, dy] = DIRECTIONS[direction]
+    const head = snake[0]
+    const newHead = [head[0] + dx, head[1] + dy]
+
+    const hitWall = newHead[0] < 0 || newHead[0] >= GRID_WIDTH ||
+                    newHead[1] < 0 || newHead[1] >= GRID_HEIGHT
+    const hitSelf = snake.some(([x,y]) => x === newHead[0] && y === newHead[1])
+
+    if (hitWall || hitSelf){
+        console.log(`Game Over! Score: ${score}`)
+        clearInterval(timer)
+        return
+    }
+
+    snake.unshift(newHead)
+    if(newHead[0] === food[0] && newHead[1] === food[1]){
+        score += 1
+        food = randomCell()
+        while(snake.some(([x, y]) => x === food[0] && y === food[1])){
+            food = randomCell()
+        }
+    } else {
+        snake.pop()
+    }
+
+    draw()
+}
+
+document.addEventListener("keydown", (e) => {
+    const keys = { ArrowUp: "UP", ArrowDown: "DOWN", ArrowLeft: "LEFT", ArrowRight: "RIGHT" }
+    if (keys[e.key]) direction = keys[e.key]
+})
+const timer = setInterval(step, 100)
