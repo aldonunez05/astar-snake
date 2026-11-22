@@ -84,11 +84,75 @@ function aStarPath(start, goal, obstacles){
     return path
 }
 
+function floodFillArea(start, obstacles){
+    const visited = new Set([key(...start)])
+    const stack = [start]
+
+    while (stack.length > 0){
+        const current = stack.pop()
+
+        for (const [dx, dy] of Object.values(DIRECTIONS)){
+            const neighbor = [current[0] + dx, current[1] + dy]
+            const k = key(...neighbor)
+
+            if (neighbor[0] >= 0 && neighbor[0] < GRID_WIDTH &&
+                neighbor[1] >= 0 && neighbor[1] < GRID_HEIGHT &&
+                !obstacles.has(k) && !visited.has(k)){
+                visited.add(k)
+                stack.push(neighbor)
+            }
+        }
+    }
+    return visited.size
+}
+
+function simulateEating(body, path, target){
+    const sim = body.slice()
+
+    for (const step of path){
+        sim.unshift(step)
+        if (step[0] !== target[0] || step[1] !== target[1]){
+            sim.pop()
+        }
+    }
+    return sim
+}
+
+function isPathSafe(body, path, target){
+    const sim = simulateEating(body, path, target)
+    const tail = sim[sim.length - 1]
+    const obstacles = new Set(sim.slice(0, -1).map(([x, y]) => key(x, y)))
+
+    return aStarPath(sim[0], tail, obstacles).length > 0
+}
+
+function safestMove(body){
+    const obstacles = new Set(body.slice(0, -1).map(([x, y]) => key(x, y)))
+    let bestMove = direction
+    let bestArea = -1
+
+    for (const [name, [dx, dy]] of Object.entries(DIRECTIONS)){
+        const neighbor = [body[0][0] + dx, body[0][1] + dy]
+        const k = key(...neighbor)
+
+        if (neighbor[0] >= 0 && neighbor[0] < GRID_WIDTH &&
+            neighbor[1] >= 0 && neighbor[1] < GRID_WIDTH &&
+            !obstacles.has(k)){
+            const area = floodFillArea(neighbor, obstacles)
+            if (area > bestArea){
+                bestArea = area
+                bestMove = name
+            }
+        }
+    }
+    return bestMove
+}
+
 function getNextMove(){
     const obstacles = new Set(snake.map(([x,y]) => key(x,y)))
     const path = aStarPath(snake[0], food, obstacles)
 
-    if (path.length > 0){
+    if (path.length > 0 && isPathSafe(snake, path, food)){
         const next = path[0]
         for(const [name, [dx, dy]] of Object.entries(DIRECTIONS)){
             if (snake[0][0] + dx === next[0] && snake[0][1] + dy === next[1]){
@@ -96,7 +160,7 @@ function getNextMove(){
             }
         }
     }
-    return direction
+    return safestMove(snake) 
 }
 
 function step(){
