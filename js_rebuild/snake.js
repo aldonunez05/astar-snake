@@ -44,6 +44,46 @@ function draw(){
     }
 }
 
+
+function heuristic(a, b){
+    return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1])
+}
+
+function aStarPath(start, goal, obstacles){
+    const frontier = [[0, start]]
+    const cameFrom = new Map([[key(...start), null]])
+    const costSoFar = new Map([[key(...start), 0]])
+
+    while (frontier.length > 0){
+        frontier.sort((a, b) => a[0] - b[0])
+        const [, current] = frontier.shift()
+
+        if (current[0] === goal[0] && current[1] === goal[1]) break
+
+        for (const [dx, dy] of Object.values(DIRECTIONS)){
+            const neighbor = [current[0] + dx, current[1] + dy]
+            const k = key(...neighbor)
+
+            if (neighbor[0] >= 0 && neighbor[0] < GRID_WIDTH &&
+                neighbor[1] >= 0 && neighbor[1] < GRID_HEIGHT &&
+                !obstacles.has(k) && !costSoFar.has(k)){
+                const cost = costSoFar.get(key(...current)) + 1
+                costSoFar.set(k, cost)
+                frontier.push([cost + heuristic(neighbor, goal), neighbor])
+                cameFrom.set(k, current)
+            }
+        }
+    }
+    const path = []
+    let current = goal
+    while (cameFrom.has(key(...current)) && cameFrom.get(key(...current)) !== null){
+        path.push(current)
+        current = cameFrom.get(key(...current))
+    }
+    path.reverse()
+    return path
+}
+
 function step(){
     const [dx, dy] = DIRECTIONS[direction]
     const head = snake[0]
