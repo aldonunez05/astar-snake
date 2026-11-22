@@ -42,6 +42,11 @@ function draw(){
     for (const[x, y] of snake){
         ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
     }
+
+    ctx.fillStyle = WHITE
+    ctx.font = "12px Arial"
+    ctx.textBaseLine = "top"
+    ctx.fillText(`Score: ${score}`, 10, 10)
 }
 
 
