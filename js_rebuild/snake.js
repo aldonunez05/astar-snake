@@ -136,7 +136,7 @@ function safestMove(body){
         const k = key(...neighbor)
 
         if (neighbor[0] >= 0 && neighbor[0] < GRID_WIDTH &&
-            neighbor[1] >= 0 && neighbor[1] < GRID_WIDTH &&
+            neighbor[1] >= 0 && neighbor[1] < GRID_HEIGHT &&
             !obstacles.has(k)){
             const area = floodFillArea(neighbor, obstacles)
             if (area > bestArea){
