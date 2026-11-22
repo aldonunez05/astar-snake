@@ -176,14 +176,14 @@ function step(){
     const body = eating ? snake : snake.slice(0, -1)    
     const hitSelf = snake.some(([x,y]) => x === newHead[0] && y === newHead[1])
 
-    if (eating){
+    if (hitWall || hitSelf){
         console.log(`Game Over! Score: ${score}`)
         clearInterval(timer)
         return
     }
 
     snake.unshift(newHead)
-    if(newHead[0] === food[0] && newHead[1] === food[1]){
+    if(eating){
         score += 1
         food = randomCell()
         while(snake.some(([x, y]) => x === food[0] && y === food[1])){
