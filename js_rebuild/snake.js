@@ -44,8 +44,8 @@ function draw(){
     }
 
     ctx.fillStyle = WHITE
-    ctx.font = "12px Arial"
-    ctx.textBaseLine = "top"
+    ctx.font = "20px Arial"
+    ctx.textBaseline = "top"
     ctx.fillText(`Score: ${score}`, 10, 10)
 }
 
@@ -201,4 +201,5 @@ function step(){
     draw()
 }
 
+draw()
 const timer = setInterval(step, 100)
