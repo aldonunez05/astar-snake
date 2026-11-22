@@ -26,11 +26,11 @@ A Python-based AI-powered Snake game that uses the A* search algorithm to autono
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/aldonunez05/ai-snake-game.git
-   cd ai-snake-game
+   git clone https://github.com/aldonunez05/astar-snake.git
+   cd astar-snake
 2. Install dependencies
    ```bash
-    pip install pygame
+    pip3 install pygame
    ```
    Debian based systems:
    
@@ -41,18 +41,10 @@ A Python-based AI-powered Snake game that uses the A* search algorithm to autono
    Arch based systems:
    ```bash
    sudo pacman -S python3-pygame
+   
 4. Run the game
    ```bash
-    python snake_game.py
-   
-## Future Improvements
-Add a scoring system and UI.
-
-Implement more advanced AI (e.g. Hamiltonian cycles, BFS fallback).
-
-Add a manual vs. AI play mode.
-
-Refactor into an object-oriented design for scalability.
+    python3 snake_game.py
 
 ## License
 This project is open source under the MIT License.
