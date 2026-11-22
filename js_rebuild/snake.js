@@ -174,7 +174,7 @@ function step(){
     
     const eating = newHead[0] === food[0] && newHead[1] === food[1]
     const body = eating ? snake : snake.slice(0, -1)    
-    const hitSelf = snake.some(([x,y]) => x === newHead[0] && y === newHead[1])
+    const hitSelf = body.some(([x,y]) => x === newHead[0] && y === newHead[1])
 
     if (hitWall || hitSelf){
         console.log(`Game Over! Score: ${score}`)
