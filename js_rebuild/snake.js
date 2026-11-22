@@ -84,7 +84,23 @@ function aStarPath(start, goal, obstacles){
     return path
 }
 
+function getNextMove(){
+    const obstacles = new Set(snake.map(([x,y]) => key(x,y)))
+    const path = aStarPath(snake[0], food, obstacles)
+
+    if (path.length > 0){
+        const next = path[0]
+        for(const [name, [dx, dy]] of Object.entries(DIRECTIONS)){
+            if (snake[0][0] + dx === next[0] && snake[0][1] + dy === next[1]){
+                return name
+            }
+        }
+    }
+    return direction
+}
+
 function step(){
+    direction = getNextMove()
     const [dx, dy] = DIRECTIONS[direction]
     const head = snake[0]
     const newHead = [head[0] + dx, head[1] + dy]
@@ -113,8 +129,4 @@ function step(){
     draw()
 }
 
-document.addEventListener("keydown", (e) => {
-    const keys = { ArrowUp: "UP", ArrowDown: "DOWN", ArrowLeft: "LEFT", ArrowRight: "RIGHT" }
-    if (keys[e.key]) direction = keys[e.key]
-})
 const timer = setInterval(step, 100)
