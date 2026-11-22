@@ -43,7 +43,7 @@ A Python-based AI-powered Snake game that uses the A* search algorithm to autono
    sudo pacman -S python3-pygame
 4. Run the game
    ```bash
-    python snake_ai.py
+    python snake_game.py
    
 ## Future Improvements
 Add a scoring system and UI.
