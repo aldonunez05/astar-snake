@@ -1,4 +1,4 @@
-# AI Snake Game with A* Pathfinding
+# Snake Game with A* Pathfinding
 
 A Python-based AI-powered Snake game that uses the A* search algorithm to autonomously find the optimal path to food while avoiding collisions with itself and walls. The game is built using the Pygame library for real-time graphics rendering and grid-based movement.
 
