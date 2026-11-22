@@ -171,9 +171,12 @@ function step(){
 
     const hitWall = newHead[0] < 0 || newHead[0] >= GRID_WIDTH ||
                     newHead[1] < 0 || newHead[1] >= GRID_HEIGHT
+    
+    const eating = newHead[0] === food[0] && newHead[1] === food[1]
+    const body = eating ? snake : snake.slice(0, -1)    
     const hitSelf = snake.some(([x,y]) => x === newHead[0] && y === newHead[1])
 
-    if (hitWall || hitSelf){
+    if (eating){
         console.log(`Game Over! Score: ${score}`)
         clearInterval(timer)
         return
